@@ -58,7 +58,8 @@ def traducir_texto(texto, idioma_destino='en'):
     diccionario_traducciones = {
         'es': {'what is your name?': '¿cuál es tu nombre?', 'how are you?': '¿cómo estás?'},
         'en': {'¿cuál es tu nombre?': 'what is your name?', '¿cómo estás?': 'how are you?'},
-        'fr': {'what is your name?': 'quel est votre nom?', 'how are you?': 'comment ça va?', 'surtir': 'change'}
+        'fr': {'what is your name?': 'quel est votre nom?', 'how are you?': 'comment ça va?', 'surtir': 'change'},
+        'it': {'what is your name?': 'come ti chiami?', 'how are you?': 'come stai?'}
     }
 
     return diccionario_traducciones.get(idioma_destino, {}).get(texto, texto)
@@ -126,6 +127,18 @@ def responder_pregunta(pregunta, idioma='es', umbral_similitud=0.7, procesadas=N
         else:
             guardar_pregunta(pregunta.lower())  # Guardar la pregunta no contestada
             return "Désolé, je n'ai pas d'information à ce sujet."
+    elif idioma == 'it':
+        pregunta_it = traducir_texto(pregunta, idioma_destino='it')
+        # Aquí puedes implementar lógica de respuesta en italiano
+        if pregunta_it.lower() == "come ti chiami?":
+            return "Sono un'intelligenza artificiale e non ho un nome specifico."
+        elif pregunta_it.lower() == "come stai?":
+            return "Sto bene, grazie per avermelo chiesto."
+        elif pregunta_it.lower() in preguntas_guardadas:
+            return f"La risposta a quella domanda è: {preguntas_guardadas[pregunta_it.lower()]}"
+        else:
+            guardar_pregunta(pregunta.lower())  # Guardar la pregunta no contestada
+            return "Mi dispiace, non ho informazioni a riguardo."
 
 
 def main():
